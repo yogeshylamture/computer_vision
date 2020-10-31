@@ -1,6 +1,0 @@
-function disable_attack(handles)
-
-    set(handles.popup_profile,'Enable','off');
-    
-
-        

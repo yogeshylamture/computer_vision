@@ -1,1 +1,0 @@
-Project is Digital Watermarking using DCT,in MATLAB.
