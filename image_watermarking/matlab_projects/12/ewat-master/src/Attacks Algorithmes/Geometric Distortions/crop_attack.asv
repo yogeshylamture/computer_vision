@@ -1,0 +1,25 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                           Hogeschool Antwerpen                          %
+%                Industriële Wetenschappen: Elektronica-ICT               %
+%                      MultiMediaGroep - Watermarking                     %
+%                                                                         %
+%                                                                         %
+%                             Bachelorproef 3.2                           %
+%              Kevin Heylen - Tom Meesters - Luc Verstrepen               %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%im_crop: applies cropping to an image
+%@im: image to crop
+%@cropPercent: percent of the image that wille be cropped
+%@dir: direction to crop ('Top', 'Bottom', 'Left', 'Right')
+
+function im_crop = crop_attack(image, cropPercent)
+
+[H W D] = size(im);                                     %get size of image
+newH = floor((1-(cropPercent/100))*H);                    %determine new H based on cropPercent
+newW = floor((1-(cropPercent/100))*W);                  %determine new H based on cropPercent
+
+

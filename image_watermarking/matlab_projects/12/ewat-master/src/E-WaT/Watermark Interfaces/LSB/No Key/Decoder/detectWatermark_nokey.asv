@@ -1,0 +1,192 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                           Hogeschool Antwerpen                          %
+%                Industriële Wetenschappen: Elektronica-ICT               %
+%                      MultiMediaGroep - Watermarking                     %
+%                                                                         %
+%                                                                         %
+%                             Bachelorproef 3.2                           %
+%              Kevin Heylen - Tom Meesters - Luc Verstrepen               %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%detectWatermark_nokey: searches for a watermark and displays the detected
+%message by using the inverse algorithm of computeWatermark.m
+%@handles: active set of handles
+%@im_wm: watermarked (and possibly attacked) image
+function detectWatermark_nokey(handles, im_wm)
+
+set(handles.computingMessage, 'Visible', 'on');                             %show info message 'computing'
+workbar(0.1, 'Searching for image watermark', 'Searching for image watermark');
+
+im_bp_wm = im2bp(im_wm);
+
+%bp 1
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,1));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt1, 'Visible', 'off');
+        set(handles.detMessIm1, 'Visible', 'on')
+        axes(handles.detMessIm1)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt1, 'String' , message_t);
+        set(handles.detMessTxt1, 'Visible', 'on');
+        set(handles.detMessIm1, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+%bp 2
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,2));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt2, 'Visible', 'off');
+        set(handles.detMessIm2, 'Visible', 'on')
+        axes(handles.detMessIm2)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt2, 'String' , message_t);
+        set(handles.detMessTxt2, 'Visible', 'on');
+        set(handles.detMessIm2, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.25);
+
+%bp 3
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,3));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt3, 'Visible', 'off');
+        set(handles.detMessIm3, 'Visible', 'on')
+        axes(handles.detMessIm3)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt3, 'String' , message_t);
+        set(handles.detMessTxt3, 'Visible', 'on');
+        set(handles.detMessIm3, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+%bp 1
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,1));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt1, 'Visible', 'off');
+        set(handles.detMessIm1, 'Visible', 'on')
+        axes(handles.detMessIm1)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt1, 'String' , message_t);
+        set(handles.detMessTxt1, 'Visible', 'on');
+        set(handles.detMessIm1, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+%bp 1
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,1));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt1, 'Visible', 'off');
+        set(handles.detMessIm1, 'Visible', 'on')
+        axes(handles.detMessIm1)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt1, 'String' , message_t);
+        set(handles.detMessTxt1, 'Visible', 'on');
+        set(handles.detMessIm1, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+%bp 1
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,1));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt1, 'Visible', 'off');
+        set(handles.detMessIm1, 'Visible', 'on')
+        axes(handles.detMessIm1)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt1, 'String' , message_t);
+        set(handles.detMessTxt1, 'Visible', 'on');
+        set(handles.detMessIm1, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+%bp 1
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,1));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt1, 'Visible', 'off');
+        set(handles.detMessIm1, 'Visible', 'on')
+        axes(handles.detMessIm1)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt1, 'String' , message_t);
+        set(handles.detMessTxt1, 'Visible', 'on');
+        set(handles.detMessIm1, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+%bp 1
+    
+[messageType message_im message_t] = searchMessageNoKey(handles, im_bp_wm(:,:,1));
+
+switch(messageType)
+    case 'imag'
+        set(handles.detMessTxt1, 'Visible', 'off');
+        set(handles.detMessIm1, 'Visible', 'on')
+        axes(handles.detMessIm1)
+        imshow(message_im);
+        axis equal
+        axis tight
+        axis off
+    case 'text'
+        set(handles.detMessTxt1, 'String' , message_t);
+        set(handles.detMessTxt1, 'Visible', 'on');
+        set(handles.detMessIm1, 'Visible', 'off');
+end
+set(handles.computingMessage, 'Visible', 'off');                            %hide info message 'computing'
+workbar(0.125);
+
+workbar(1.0);

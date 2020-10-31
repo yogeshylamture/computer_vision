@@ -1,0 +1,18 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                           Hogeschool Antwerpen                          %
+%                Industriële Wetenschappen: Elektronica-ICT               %
+%                      MultiMediaGroep - Watermarking                     %
+%                                                                         %
+%                                                                         %
+%                             Bachelorproef 3.2                           %
+%              Kevin Heylen - Tom Meesters - Luc Verstrepen               %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function path = extract_LSB(decoder_settings)
+
+%here normaly comes the LSB decoder
+original_message = decoder_settings.message;
+me = numel(original_message);
+

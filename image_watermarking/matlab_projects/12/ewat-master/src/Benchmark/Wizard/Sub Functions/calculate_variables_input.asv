@@ -1,0 +1,96 @@
+function [full_image_rgb working_image]=calculate_variables_input(handles)
+
+        spectrum = get(handles.popup_spectrum,'Value');
+        layer = get(handles.popup_layer,'Value');
+        
+        full_image_rgb = get_root_data('full_image');
+        
+        switch spectrum
+            case 1.0    %rgb selected
+                switch layer
+                    case 1.0    %red selected
+                        working_image = full_image_rgb(:,:,1);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','RGB');
+                        set(handles.txt_image_layer,'string','Red layer');
+                    case 2.0    %green selected
+                        working_image = full_image_rgb(:,:,2);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','RGB');
+                        set(handles.txt_image_layer,'string','Green layer');
+                    case 3.0    %blue selected
+                        working_image = full_image_rgb(:,:,3);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','RGB');
+                        set(handles.txt_image_layer,'string','Blue layer');
+                end
+            case 2.0    %yiq selected
+                converted_image = im2uint8(rgb2ntsc(full_image_rgb));
+                switch layer
+                    case 1.0    %y selected
+                        working_image = converted_image(:,:,1);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','NTSC(YIQ)');
+                        set(handles.txt_image_layer,'string','Y-layer');
+                    case 2.0    %I selected
+                        working_image = converted_image(:,:,2);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','NTSC(YIQ)');
+                        set(handles.txt_image_layer,'string','I-layer');
+                    case 3.0    %Q selected
+                        working_image = converted_image(:,:,3);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','NTSC(YIQ)');
+                        set(handles.txt_image_layer,'string','Q-layer');
+                end
+            case 3.0    %YCbCr selected
+                converted_image = im2uint8(rgb2ycbcr(full_image_rgb));
+                switch layer
+                    case 1.0    %y selected
+                        working_image = converted_image(:,:,1);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','YCbCr');
+                        set(handles.txt_image_layer,'string','Y-layer');
+                    case 2.0    %CB selected
+                        working_image = converted_image(:,:,2);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','YCbCr');
+                        set(handles.txt_image_layer,'string','Cb-layer');
+                    case 3.0    %Cr selected
+                        working_image = converted_image(:,:,3);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','YCbCr');
+                        set(handles.txt_image_layer,'string','Cr-layer');
+                end
+            case 4.0    %hsv selected
+                converted_image = im2uint8(rgb2hsv(full_image_rgb));
+                switch layer
+                    case 1.0    %hue selected
+                        working_image = converted_image(:,:,1);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','HSV');
+                        set(handles.txt_image_layer,'string','Hue layer');
+                    case 2.0    %saturation selected
+                        working_image = converted_image(:,:,2);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','HSV');
+                        set(handles.txt_image_layer,'string','Saturation layer');
+                    case 3.0    %Value selected
+                        working_image = converted_image(:,:,3);
+                        set_root_data(handles,'working_image',working_image);
+                        
+                        set(handles.txt_image_spectrum,'string','HSV');
+                        set(handles.txt_image_layer,'string','Value layer');
+                end
+        end

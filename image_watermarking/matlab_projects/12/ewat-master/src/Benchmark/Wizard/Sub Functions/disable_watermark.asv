@@ -1,0 +1,3 @@
+function disable_watermark(handles)
+
+        set(handles.tab_benchmark,'Enable','off');

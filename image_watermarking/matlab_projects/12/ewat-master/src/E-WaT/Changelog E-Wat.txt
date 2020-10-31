@@ -1,0 +1,96 @@
+CHANGELOG E-WAT
+***************
+
+-------
+- 12/02/08: Attack section cat error fixed with geometric attacks by resizing attacked image to size of watermarked image when leaving the attack section (CAT-error due to incompatible image size after attack with DCT/DWT and watermark algorithms)
+- 12/02/08: If a layer was specified layer then auto select the radiobuttons in other parts.
+- 12/02/08: attack added: remove pixel row/colum
+- 12/02/08: LSB detector: detected message with lowest BER is returned to overview instead of detected message from bitplan 1
+- 13/02/08: attack added: denoise
+- 13/02/08: Update of the user interface. (because of the 2007b some button changed in appearance)
+- 13/02/08: Fixed and replaced the dutch manual by the english manual
+- 13/02/08: Fixed alignment in the about interface 
+- 14/02/08: error 'loading the image _copyright_small.bmp in Data composition give black image' solved: conversion problem to uint8 for indexed images + data composition reorganized 
+
+v.1.7.3
+-------
+- 02/02/08: LSB: embed function in separate m-file + code cleanup
+- 02/02/08: LSB with key and without key merged (using checkbox). So now there one embedder for both key and without key. Detector is stil separated because the algorithms are too different and too complex to merge.
+- 03/02/08: edge detection attack: popupmenu added with filter types (up to now: only sobel filter)
+- 03/02/08: attack: code cleanup
+
+
+v1.7.1
+------
+- Januari 08: DS-CDMA technique added
+- Januari 08: Help guide updated + translated
+
+v1.7
+------
+- 26/11/07: Actual embedding algorithm placed in separate .m files
+- 26/11/07: QIM bug fixed -> improved performance
+- 26/11/07: The detector selects the watermarked layer automatically -> zie set_variables_attacked_decode bovenaan
+- 26/11/07: At startup of E-WaT, the RGB mode is selected by default
+- 26/11/07: A message box warns the user when the YCbCr mode is selected
+- 26/11/07: Capacity of patchwork adapted in embed/overview module
+- 26/11/07: Capacity of QIM added in embed/overview module
+- 26/11/07: Capacity check inserted in embed module
+
+v1.6
+------
+- 10/11/07: Design of iMark interface
+- 11/11/07: Names of different interfaces adjusted
+- 11/11/07: Implementation of iMark with E-WaT in Advanced Watermarking Tool
+- 11/11/07: Restructure of directory's for easier future extensions
+
+v1.5
+------
+- 11/11/07: facelift of Attack GUI: tabs
+- 11/11/07: LSB: embedding in multiple bitplanes + simplyfied embedding function + conversion to bitplanes fastened
+
+
+v1.4.1
+-------
+- 8/11/07: error lossy compression on LSB (empty bitplanes at decoder) solved: conversion error UINT8 <-> double
+- 8/11/07: patchwork: variable treshold instead of fixed
+- 8/11/07: correlation: bitplanes inverted, 0/1 instead of -1/0/1
+- 8/11/07: coorelation: pattern for 0 is the inverted pattern for 1 which leads to a improved detection
+- 8/11/07: patchwork: possible to embed full message instead of one bit
+
+
+
+Known issues
+************
+- rounding errors due to use of Matlab's RGB2YcbCr. (This leads for example to incorrect conversion to bitplanes and incorrect message detection.) --> only problem when watermarking one of the YCbCr layers.
+==> tempory solution: watermark RED layer by default instead of icon image (Y-layer)
+==> ultimate soluation: use YIQ in stead of YCbCr?(ask Tim first)
+- Luc: Some image in the manual don't work.
+- TOM: zoom doesn't work anymore in every GUI
+
+
+Possible Expansions
+*******************
+- update/chek manual
+- select key again at detector, this way test using a wrong key can be performed
+- attack: - TODO: JPEG 2000
+          - make attacks  based on table I, page 6 of CMK_D41.pdf (European guidelines 2001)
+          - make sure all Stirmark attacks can also be done using our attack section
+          - add some new attacks from paper 'A fair benchmark...': - histogram stretching
+                                                                   - histogram equalisation
+                      		                                   - Twin peak attack
+                                            			   - color quantisation: GIF + dithering
+		                                                   - mosaic attack
+                      			                           - restoration
+                                            		           - printing & scanning
+- perform DCT/DWT only after clicking on the DCT/DWT button. This way, less computation time is required at start up, and dct/dwt will only be computed when strictly necessary.
+- when layers are shown before embedding (or attack/decode resp.), automatically also show layers after embedding (or attack/decode resp.)
+- when browsing for an image (at the start or in data composition), make sure current directory is the most appropriate image directory
+- define default images (minimum size, size compatible with blocksize, extension,...)
+- zoom on 'every' interface.
+- close awt-GUI after choise between iMark or E-WaT  (in advanced_watermarking_tool.m: rule 65+70: close;)
+- update comments: Master thesis instead of bachelorthesis
+
+
+
+
+

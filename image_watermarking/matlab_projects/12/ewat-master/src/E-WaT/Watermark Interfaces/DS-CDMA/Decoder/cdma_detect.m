@@ -1,0 +1,303 @@
+function varargout = cdma_detect(varargin)
+% CDMA_DETECT M-file for cdma_detect.fig
+%      CDMA_DETECT, by itself, creates a new CDMA_DETECT or raises the existing
+%      singleton*.
+%
+%      H = CDMA_DETECT returns the handle to a new CDMA_DETECT or the handle to
+%      the existing singleton*.
+%
+%      CDMA_DETECT('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in CDMA_DETECT.M with the given input arguments.
+%
+%      CDMA_DETECT('Property','Value',...) creates a new CDMA_DETECT or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before cdma_detect_OpeningFunction gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to cdma_detect_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help cdma_detect
+
+% Last Modified by GUIDE v2.5 10-Jan-2008 12:15:21
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @cdma_detect_OpeningFcn, ...
+                   'gui_OutputFcn',  @cdma_detect_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before cdma_detect is made visible.
+function cdma_detect_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to cdma_detect (see VARARGIN)
+
+% Choose default command line output for cdma_detect
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes cdma_detect wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+        %read in the watermarked image
+        rgb_watermarked = get_root_data('plot_attacked_decode');
+        
+        axes(handles.origIm);                               %show the image in the axes 'origIm'
+        imshow(rgb_watermarked);                            %show the image
+        axis equal;
+        axis tight;
+        axis off;
+
+        %hide the unused text_rm and text_detecting
+        set(handles.text_rm,'Visible','off');
+        set(handles.text_detecting,'Visible','off');
+        
+        %hide the unused axes
+        set(handles.corIm,'Visible','off');
+        set(handles.orig_message,'Visible','off');
+        set(handles.recovered_message,'Visible','off');
+
+        type = get_root_data('chosen_message');
+        switch type
+            case 'text'
+                message = get_root_data('chosen_message_text');
+                set(handles.text_om,'String',message);
+
+                set(handles.orig_message,'Visible','off');
+                set(handles.text_om,'Visible','on');
+            case 'imag'
+                message = get_root_data('chosen_message_image');
+                set(handles.orig_message,'Visible','on');
+                axes(handles.orig_message);
+                imshow(message);
+                axis equal;
+                axis tight;
+                axis off;
+
+                set(handles.text_om,'Visible','off');
+        end;
+
+        type_key = get_root_data('chosen_key');
+        switch type_key
+            case 'text'
+                key = get_root_data('chosen_key_text');
+
+            case 'imag'
+                key = get_root_data('chosen_key_image');
+        end;
+        
+        if(strcmp(type_key,'text'))
+            %Read the key in from a text file
+            key_text = key;
+
+            m = size(key_text,1);
+            sum = 0;
+            for i = 1:m
+                sum = sum + key_text(i,1);
+            end
+            average = round(sum/m);
+        else
+            key_image = key;
+
+            %determine size of key image
+            Mm=size(key_image,1);	%Height
+            Nm=size(key_image,2);	%Width
+
+            sum = 0;
+            for i = 1:Mm
+                for j = 1:Nm
+                    sum = sum + key_image(i,j);
+                end
+            end
+            average = round(sum/(Mm*Nm));
+        end
+
+        %reset MATLAB's PN generator to state with value 'average'
+        rand('state',double(average));
+
+        type = get_root_data('chosen_message');
+        switch type
+            case 'text'
+                message = get_root_data('chosen_message_text');
+                %show the text detecting...
+                set(handles.text_detecting,'Visible','on');
+                %hide the textbox recovered message
+                set(handles.text_rm,'Visible','off');
+
+            case 'imag'
+                message = get_root_data('chosen_message_image');
+                %show the text detecting...
+                set(handles.text_detecting,'Visible','on');
+                %hide the axes recovered_message
+                set(handles.recovered_message,'Visible','off');
+        end;
+
+        %calculate the sizes of the messages
+        if(strcmp(type,'text'))
+            message_binary = dec2bin(message);
+            Mo=size(message_binary,1);                     %Height
+            No=size(message_binary,2);                     %Width
+        else
+            Mo=size(message,1);
+            No=size(message,2);
+        end
+
+        % read in the watermarked object
+        watermarked_image = get_root_data('working_attacked_decode');
+
+        % determine size of watermarked image
+        Mw=size(watermarked_image,1);                      %Height
+        Nw=size(watermarked_image,2);                      %Width
+        
+        average_watermarked_image = uint8( mean(mean(watermarked_image)) );
+
+        % determine the length of the embedded message
+        message_length=Mo*No;
+
+        % initialise the message_vector
+        message_vector=ones(message_length,1);
+
+        % initialise the average and total correlation vectors
+        correlation_vector = double(zeros(Mw,Nw));
+        average_correlation_vector = zeros(1,message_vector);
+        
+        for i = 1:length(message_vector)
+
+            workbar(i/length(message_vector),'Detecting the message...','Progress');
+
+            % reconstruct the random noise pattern
+            rp = rand(Mw,Nw);
+            for j = 1:Mw
+                for k = 1:Nw
+                    if (rp(j,k) < 0.5)
+                        rp(j,k) = -1;
+                    else
+                        rp(j,k) = 1;
+                    end
+                end
+            end
+            
+            % calculate the average of the random noise pattern
+            average_rp = mean(mean(rp));
+            
+            sum = double(0);
+            counter = double(0);
+            
+            % calculate the total correlation for each noise pattern and save the average correlation.  
+            for l = 1:1:Mw
+                for m = 1:1:Nw
+                    correlation_vector(l,m) = double(rp(l,m) - average_rp)*double(watermarked_image(l,m) - average_watermarked_image);
+                    sum = sum + correlation_vector(l,m);
+                    counter = counter + 1;
+                end
+            end
+            
+            % use the average correlation to extract the message bit
+            average_correlation_vector(i) = sum/counter;
+            if(average_correlation_vector(i) > 0)
+                message_vector(i) = 0;
+            else
+                message_vector(i) = 1;
+            end
+
+        end
+
+        % reshape the message and the average correlation vector
+        message = reshape(message_vector(1:Mo*No),Mo,No);
+        average_correlation_vector = reshape(average_correlation_vector(1:Mo*No),Mo,No);
+        
+        axes(handles.corIm);
+        imshow(average_correlation_vector);
+        axis equal;
+        axis tight;
+        axis off;
+
+        if(strcmp(type,'text'))
+            message(1:Mo,1:No);
+            %hide the text/image detecting...
+            set(handles.text_detecting,'Visible','off');
+            set(handles.recovered_message,'Visible','off');
+            %show the textbox recovered message
+            set(handles.text_rm,'Visible','on');
+            %first transform the O's and 1's to characters, then reshape the the
+            %characters to a horizontal string
+            message_reshaped = reshape( char(bin2dec(num2str(message(1:Mo,1:No)))), 1, Mo); 
+            set(handles.text_rm,'String',message_reshaped);
+
+            set_root_data(handles,'detected_message',message_reshaped);
+        else
+            %hide the text detecting...
+            set(handles.text_detecting,'Visible','off');
+            set(handles.text_rm,'Visible','off');
+            %show the axes recovered_message
+            set(handles.recovered_message,'Visible','on');
+            axes(handles.recovered_message);                             %show the image in the axes 'recovered_message'
+            imshow(message);                                             %show the image
+            axis equal;
+            axis tight;
+            axis off;
+
+            set_root_data(handles,'detected_message',message);
+        end
+
+% --- Outputs from this function are returned to the command line.
+function varargout = cdma_detect_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% --- Executes on button press in done_btn.
+function done_btn_Callback(hObject, eventdata, handles)
+% hObject    handle to done_btn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+        watermark_found = get(handles.text_om,'Visible');
+        switch watermark_found
+            case 'on'       % Text was the message
+                text = get(handles.text_rm,'String');
+                original_message = get(handles.text_om,'String');
+                
+                set_root_data(handles,'embedded_text',original_message);
+                set_root_data(handles,'detected_text',text);
+                
+                close();
+                fhupdate_axes('text',text);
+                
+            case 'off'
+                image_recovered = getimage(handles.recovered_message);
+                original_image = getimage(handles.orig_message);
+                
+                set_root_data(handles,'embedded_image',original_image);
+                set_root_data(handles,'detected_image',image_recovered);
+                
+                close();
+                fhupdate_axes('image',image_recovered);
+        end;

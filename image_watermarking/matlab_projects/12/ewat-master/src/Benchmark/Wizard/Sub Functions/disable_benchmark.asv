@@ -1,0 +1,16 @@
+function disable_benchmark(handles)
+
+        set(handles.btn_benchmark,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        set(handles.radiobutton_matlab,'Enable','off');
+        
+        set(handles.popup_technique,'Enable','off');
+        set(handles.popup_settings_technique,'Enable','off');
+        set(handles.checkbox_watermark_done,'Enable','off');
+

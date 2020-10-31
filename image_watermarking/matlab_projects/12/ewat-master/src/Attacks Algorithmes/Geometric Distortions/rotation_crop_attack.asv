@@ -1,0 +1,26 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %  
+%                           Hogeschool Antwerpen                          %
+%                Industriële Wetenschappen: Elektronica-ICT               %
+%                      MultiMediaGroep - Watermarking                     %
+%                                                                         %
+%                                                                         %
+%                             Masterthesis 4.2                            %
+%                               Kevin Heylen                              %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%rotate: rotates image im for a number of degrees
+%@im: image to rotate
+%@nrOfDegrees: nr of degrees to rotate
+%@CW: boolean which defines wether or not to rotate clockwise
+
+function im_rot_rescale = rot(im, nrOfDegrees)
+
+try
+    [H W D] = size(im);
+    im_rot = imrotate(im, nrOfDegrees*(-1));                %rotate image clockwise (therefore -1)
+    im_rot_rescale = imresize(im_rot,[H iw]);
+catch
+    im_rot_rescale = im;
+end

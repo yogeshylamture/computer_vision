@@ -1,0 +1,9 @@
+function enable_input(handles)
+
+        set(handles.popup_spectrum,'Enable','on');
+        set(handles.popup_layer,'Enable','on');
+        
+        set(handles.popup_key_type,'Enable','on');
+        set(handles.popup_message_type,'Enable','on');
+        set(handles.checkbox_input_done,'Enable','on');
+        
